@@ -1,4 +1,19 @@
-var fs = require('fs');
+function readFile(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+function fileBufferedReader(){
+    let result = Math.floor(Math.random() * 5000) + 100;
+    return result;
+}
+
+enum File {
+    Ch1 = "This is chapter 1... lore ipsun",
+    Ch2 = "This is chapter 2... hello world",
+    Ch3 = "This is chapter 3... 42",
+    Ch4 = "This is chapter 4... typescript is fun",
+    Ch5 = "This is chapter 5... yet promises are tricky"
+}
 
 export default class Chapter {
 
@@ -8,34 +23,35 @@ export default class Chapter {
         this.chapterNumber = chapterNumber;
     }
 
-    public read(): Promise<string> {
-        let filename = this.getFileName();
-        console.log('Loading :: ' + filename);
-        return new Promise(function (fulfill, reject) {
-            fs.readFile(filename, 'utf8', (err: any, txt: any) => {
-                if (err) reject(err);
-                console.log('>> LOADED :: ' + filename);
-                fulfill(txt);
-            });
-        });
-    }
-
     public load(): Promise<string> {
-        let filename = this.getFileName();
-        let that = this;
-        console.log('Loading :: ' + filename);
+        let path = this.filePath();
+        console.log('Loading :: ' + path);
         return new Promise(function (fulfill, reject) {
-            fs.readFile(filename, 'utf8', (err: any, txt: any) => {
-                if (err) reject(err);
-                console.log('>> LOADED :: ' + filename);
-                fulfill({'idx': that.chapterNumber, 'content': txt});
+            readFile(fileBufferedReader()).then(() => {
+                console.log('>> LOADED :: ' + path);
+                let content = File[path];
+                if (content == null) reject('[ERROR] :: Could not read file!');
+                fulfill(content);
             });
         });
     }
 
-    public getFileName(): string {
-        let chapterFolder = __dirname + "/../book/chapters/";
-        const extension = ".txt";
-        return chapterFolder + String(this.chapterNumber) + extension;
+    public anotherLoad(): Promise<string> {
+        let that = this;
+        let path = this.filePath();
+        console.log('Loading :: ' + path);
+        return new Promise(function (fulfill, reject) {
+            readFile(fileBufferedReader()).then(() => {
+                console.log('>> LOADED :: ' + path);
+                let content = File[path];
+                if (content == null) reject('[ERROR] :: Could not read file!');
+                fulfill({'idx': that.chapterNumber, 'content': content});
+            });
+        });
+    }
+
+    public filePath(): string {
+        let path = "Ch" + String(this.chapterNumber);
+        return path;
     }
 }

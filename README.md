@@ -12,7 +12,7 @@ Make sure that you have:
 # Promises
 
 For this tutorial, I grabbed [this](https://www.polygon.com/2017/9/12/16288926/metroid-samus-returns-review) Metroid Samus Return review 
-and I'l refer to it as a book and one of a couple of sentences make a chapter.
+and I'l refer to it as a book and one of a couple of sentences make a chapter. To look in the correct chapter order, check the txt files in `./book/chapters`.
 
 ## Crazy output
 
@@ -289,9 +289,9 @@ Done in 0.56s.
 ``` 
 
 Notice how the loaded order was still asynchronous. However, this time our **Promise.all** was clever enough to wait all promises to be finished before printing their content.
-Notice that sorting the chapters in the proper is still our responsibility and we had to use some mechanism to do that. 
+Notice that sorting the chapters in the proper order is still our responsibility and we had to use some mechanism to do that. 
 
-I' sure there might be other ways to achieve the same result. 
+I'm sure there might be other ways to achieve the same result. 
 
 
 I hope you liked this tutorial. That's all folks ¯\\\_(ツ)_/¯   
@@ -304,4 +304,4 @@ I hope you liked this tutorial. That's all folks ¯\\\_(ツ)_/¯
 
 # References
 
-* This tutorial is basically a code that wraps a more in-depth explanation about [Asynchrony Reading](https://github.com/ubccpsc/310/blob/2017jan/readings/Async.md) by Dr. Reid Holmes
+* This tutorial is heavily inspired by this [Asynchrony Reading](https://github.com/ubccpsc/310/blob/2017jan/readings/Async.md) by Dr. Reid Holmes

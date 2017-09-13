@@ -301,3 +301,7 @@ I hope you liked this tutorial. That's all folks ¯\\\_(ツ)_/¯
 * Explain more about yarn
 * Explain more about node
 * Explain more about mocha
+
+# References
+
+* This tutorial is basically a code that wraps a more in-depth explanation about [Asynchrony Reading](https://github.com/ubccpsc/310/blob/2017jan/readings/Async.md) by Dr. Reid Holmes

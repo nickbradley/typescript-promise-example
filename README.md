@@ -66,6 +66,7 @@ Promise { <pending> }
 
 Yeckes! What went wrong? I print the chapter indexes in the right order and I also say that I' loading them in the right order.
 But the output says that chapter 4 was loaded before chapter 1, 2 and 3. That's not the order that I said! Every time that I run this code, I might get a crazy new order. Try it!
+
 Even worse: I was expecting to get some content as an output. I mean. Real text!!! Instead I got this weirdo Promise pending stuff.
 
 Let's take a look into `chapter.ts` to see what it does.

@@ -102,8 +102,8 @@ So what is happening here?
 
 This happens because we are using a file system library `fs` and reading a file is not an immediate process. It takes some time and depending on the content, length, and a bunch of other uncontrollable factors, loading a file may take milliseconds to minutes!
 
-So, that's why we wrap around a **Promise**. When we call the `read()` function, we create a contract saying: `Hey I promise you that I will read the expected file` and, once the promise is `fulfill`ed, we return its content as a string.
-What if something wrong happens? In that case, we `reject` the promise and whoever calls the read method will have to handle the success or error associated with the promise.
+So, that's why we wrap around a **Promise**. When we call the `read()` function, we create a contract saying: *Hey I promise you that I will read the expected file* and, once the promise is **fulfill**ed, we return its content as a string.
+What if something wrong happens? In that case, we *reject* the promise and whoever calls the read method will have to handle the success or error associated with the promise.
 
 ## Accessing the content of a promise.
 
@@ -135,8 +135,10 @@ import Chapter from "./chapter";
 
 
 
-> As a side note, `handleSuccess` and `handleError` are just variables that happen to be functions. This is an elegant way to make your code more clear but it messes up the order of exectuion. the console.log inside these function will only be executed *after* the promise was resolved or rejected.
-> If this syntax is a little bit confusing, the same script could be written like this: 
+> As a side note, `handleSuccess` and `handleError` are just variables that happen to be functions. This is an elegant way to make your code more clear but it messes up how we humans read the code execution. 
+> The `console.log` inside these function will only be executed *after* the promise was resolved or rejected.
+
+If this syntax is a little bit confusing, the same script could be written like this: 
 
 
 ```typescript
@@ -160,8 +162,6 @@ import Chapter from "./chapter";
 ```
 
 > Feel free to use the syntax that you prefer. The end result is the same. 
-
-
 
 
 Try the script is `yarn chapters` and see what happens: 
@@ -240,6 +240,7 @@ The `Promise.all` receives this array and you can read it basicly like this: onc
 If *any* of the promises in the array is rejected then I simple jump directly to the catch block. 
 
 With that, we get our awesome review saying how Metroid is such a great game.
+Run `yarn book`:
 
 ```
 1
@@ -276,7 +277,7 @@ Metroid: Samus Returns review
 An essential addition to the Metroid catalog
 by Russ Frushtick@RussFrushtick  Sep 12, 2017, 8:00am EDT
 
-...
+               .............
 
 WRAP UP
 SAMUS RETURNS IS FAR MORE THAN A REMAKE
@@ -294,3 +295,9 @@ I' sure there might be other ways to achieve the same result.
 
 
 I hope you liked this tutorial. That's all folks ¯\\\_(ツ)_/¯   
+
+# TODO
+
+* Explain more about yarn
+* Explain more about node
+* Explain more about mocha

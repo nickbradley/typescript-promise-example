@@ -1,0 +1,3 @@
+Samus Returns, however, introduces the ability to aim in 360 degrees by holding the left trigger. Upon doing this, Samus’ gun will emit a laser pointer that turns red upon targeting an enemy, even if it’s slightly off-screen. This plays into puzzles as well, where missiles must be fired at a precise angle to access a collectible.
+
+The other major improvement that Samus Returns brings to 2D Metroid: the ability to counterattack. Just about every enemy in the game can be countered by hitting the X button just as they’re attacking. Timing the counter will allow Samus to stun the enemy and finish it off with ease. The countering system works with 360-degree aiming, as it auto-locks onto the enemy you just countered so you don’t have to stress about lining up your shot.

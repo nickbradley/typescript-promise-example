@@ -23,18 +23,15 @@ Our first script is `yarn loreipsun`. Its code is straight forward. It look like
 ```typescript
 import Chapter from "./chapter";
 
-// This is a main method just for testing
-(function (){
+let bookChapters = [1, 2, 9];
+for (var idx of bookChapters) {
+    console.log(idx);
+    let chapter = new Chapter(idx);
+    var content = chapter.read();
 
-    let bookChapters = [1, 2, 9];
-    for (var idx of bookChapters) {
-        console.log(idx);
-        let chapter = new Chapter(idx);
-        var content = chapter.read();
+    console.log(content);
+}
 
-        console.log(content);
-    }
-})();
 ```
 
 If I run this script. I should get at least part of the chapters in the book printed in as my output right?
@@ -112,25 +109,22 @@ Ok, so how do I access the content of a promise? take a look at `chapters.ts`. I
 ```typescript
 import Chapter from "./chapter";
 
-(function (){
+let bookChapters = [1, 2, 9];
+for (var idx of bookChapters) {
+    console.log(idx);
+    let chapter = new Chapter(idx);
 
-    let bookChapters = [1, 2, 9];
-    for (var idx of bookChapters) {
-        console.log(idx);
-        let chapter = new Chapter(idx);
+    let handleSuccess = (content) => {
+        console.log(content)
+    };
 
-        let handleSuccess = (content) => {
-            console.log(content)
-        };
+    let handleError = (err) => {
+        console.log('Ops something went wrong!');
+        console.log(err);
+    };
 
-        let handleError = (err) => {
-            console.log('Ops something went wrong!');
-            console.log(err);
-        };
-
-        chapter.read().then(handleSuccess).catch(handleError);
-    }
-})();
+    chapter.read().then(handleSuccess).catch(handleError);
+}
 ```
 
 
@@ -144,21 +138,18 @@ If this syntax is a little bit confusing, the same script could be written like 
 ```typescript
 import Chapter from "./chapter";
 
-(function (){
+let bookChapters = [1, 2, 9];
+for (var idx of bookChapters) {
+    console.log(idx);
+    let chapter = new Chapter(idx);
 
-    let bookChapters = [1, 2, 9];
-    for (var idx of bookChapters) {
-        console.log(idx);
-        let chapter = new Chapter(idx);
-
-        chapter.read().then((content) => {
-            console.log(content);
-        }).catch((err) => {
-            console.log('Ops something went wrong!');
-            console.log(err);
-        });
-    }
-})();
+    chapter.read().then((content) => {
+        console.log(content);
+    }).catch((err) => {
+        console.log('Ops something went wrong!');
+        console.log(err);
+    });
+}
 ```
 
 > Feel free to use the syntax that you prefer. The end result is the same. 
@@ -204,33 +195,30 @@ I omitted some of the content in the file, but you should be able to follow. Add
 ```typescript
 import Chapter from "./chapter";
 
-(function (){
-    
-    let bookChapters = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-    let processList = [];
-    let book = {};
-    // TODO: change <for of> to <for in> and see what happens
-    for (var idx of bookChapters) {
-        console.log(idx);
-        let chapter = new Chapter(idx);
-        let handleSuccess = ...
-        let handleError = ...
+let bookChapters = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+let processList = [];
+let book = {};
+// TODO: change <for of> to <for in> and see what happens
+for (var idx of bookChapters) {
+    console.log(idx);
+    let chapter = new Chapter(idx);
+    let handleSuccess = ...
+    let handleError = ...
 
-        let toProcess = chapter.load().then(handleSuccess).catch(handleError);
-        processList.push(processList, toProcess);
+    let toProcess = chapter.load().then(handleSuccess).catch(handleError);
+    processList.push(processList, toProcess);
+}
+
+Promise.all(processList).then(() => {
+    let chapters = Object.keys(book).sort();
+    for (chapter of bookChapters) {
+        console.log(book[chapter]);
+        console.log();
     }
+}).catch((err: any) => {
 
-    Promise.all(processList).then(() => {
-        let chapters = Object.keys(book).sort();
-        for (chapter of bookChapters) {
-            console.log(book[chapter]);
-            console.log();
-        }
-    }).catch((err: any) => {
-
-        console.log(err);
-    })
-})();
+    console.log(err);
+})
 ```   
 
 The important part is related to `processList` and `Promise.all`.
@@ -288,8 +276,8 @@ Done in 0.56s.
 
 ``` 
 
-Notice how the loaded order was still asynchronous. However, this time our **Promise.all** was clever enough to wait all promises to be finished before printing their content.
-Notice that sorting the chapters in the proper order is still our responsibility and we had to use some mechanism to do that. 
+Notice how the loaded order was still asynchronous. However, this time our **Promise.all** was clever enough to wait all promises to be running its code.
+Notice that *sorting the chapters in the proper order is still our responsibility* and we had to use some mechanism to do that. 
 
 I'm sure there might be other ways to achieve the same result. 
 

@@ -1,4 +1,4 @@
-import Chapter from "./chapter";
+import {Chapter} from "./chapter";
 
 let bookChapters = [1, 2, 3, 4, 5];
 // TODO: change <for of> to <for in> and see what happens

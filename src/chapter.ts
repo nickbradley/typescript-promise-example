@@ -20,7 +20,7 @@ function File(chapter: number) {
         case 5:
             return "This is chapter 5... yet promises are tricky";
         default:
-            throw new Error('Chapter not found');
+            return null;
     }
 }
 

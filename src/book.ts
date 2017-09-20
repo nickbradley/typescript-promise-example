@@ -1,9 +1,8 @@
 import {Chapter} from "./chapter";
 
-let bookChapters: number[] = [1, 2, 3, 4, 5];
+let bookChapters: number[] = [1, 2, 3, 4, 9];
 let processList: Promise<any>[] = [];
 let book: any[] = [];
-// TODO: change <for of> to <for in> and see what happens
 for (var idx of bookChapters) {
     let chapter = new Chapter(idx);
 
@@ -11,12 +10,7 @@ for (var idx of bookChapters) {
         book.push(data);
     };
 
-    let handleError = (err: any) => {
-        console.log('Ops something went wrong!');
-        console.log(err);
-    };
-
-    let toProcess = chapter.anotherLoad().then(handleSuccess).catch(handleError);
+    let toProcess = chapter.anotherLoad().then(handleSuccess);
     processList.push(toProcess);
 }
 
@@ -28,5 +22,6 @@ Promise.all(processList).then(() => {
         console.log(chapter.content);
     }
 }).catch((err: any) => {
+    console.log('Ops something went wrong!');
     console.log(err);
 });

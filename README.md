@@ -30,7 +30,7 @@ First lets try to load the content of some book chapters.
 Our first script is `yarn loreipsun`. Its code is straight forward. It look like this:
 
 ```typescript
-import Chapter from "./chapter";
+import {Chapter} from "./chapter";
 
 let bookChapters = [1, 2, 3, 4, 5];
 for (var idx of bookChapters) {
@@ -81,12 +81,12 @@ export class Chapter {
     }
 
     public load(): Promise<string> {
-        let path = this.filePath();
-        console.log('Loading :: ' + path);
+        let path: number = this.chapterNumber;
+        console.log('Loading :: Ch' + path);
         return new Promise(function (fulfill, reject) {
             readFile(fileBufferedReader()).then(() => {
-                console.log('>> LOADED :: ' + path);
-                let content = File[path];
+                console.log('>> LOADED :: Ch' + path);
+                let content = File(path);
                 if (content == null) reject('[ERROR] :: Could not read file!');
                 fulfill(content);
             });
@@ -113,7 +113,7 @@ What if something wrong happens? In that case, we *reject* the promise and whoev
 Ok, so how do I access the content of a promise? take a look at `chapters.ts`. In order to properly access the content of a promise, you need to call it and use its builtin methods `then(...)` and `catch(...)` just like this:
 
 ```typescript
-import Chapter from "./chapter";
+import {Chapter} from "./chapter";
 
 let bookChapters = [1, 2, 3, 4, 5];
 for (var idx of bookChapters) {
@@ -141,7 +141,7 @@ If this syntax is a little bit confusing, the same script could be written like 
 
 
 ```typescript
-import Chapter from "./chapter";
+import {Chapter} from "./chapter";
 
 let bookChapters = [1, 2, 3, 4, 5];
 for (var idx of bookChapters) {
@@ -189,28 +189,31 @@ Ok. Now it is time to assemble our review. Please, take a look into `book.ts` to
 I omitted some of the content in the file, but you should be able to follow. Additionally, I'm using `chapter.loadAnother` instead of `load` the reason is because loadAnother returns a `map` with chapter number and content. This was necessary in order to properly sort the book.
 
 ```typescript
-import Chapter from "./chapter";
+import {Chapter} from "./chapter";
 
-let bookChapters = [1, 2, 3, 4, 5];
-let processList = [];
-let book = {};
-// TODO: change <for of> to <for in> and see what happens
+let bookChapters: number[] = [1, 2, 3, 4, 9];
+let processList: Promise<any>[] = [];
+let book: any[] = [];
 for (var idx of bookChapters) {
     let chapter = new Chapter(idx);
 
-    let handleSuccess = ...
-    let handleError = ...
+    let handleSuccess = (data: any) => {
+        book.push(data);
+    };
 
-    let toProcess = chapter.anotherLoad().then(handleSuccess).catch(handleError);
-    processList.push(processList, toProcess);
+    let toProcess = chapter.anotherLoad().then(handleSuccess);
+    processList.push(toProcess);
 }
 
 Promise.all(processList).then(() => {
-    let chapters = Object.keys(book).sort();
-    for (chapter of bookChapters) {
-        console.log(book[chapter]);
+    book = book.sort(function (a: any, b: any) {
+        return a.idx - b.idx
+    });
+    for (let chapter of book) {
+        console.log(chapter.content);
     }
 }).catch((err: any) => {
+    console.log('Ops something went wrong!');
     console.log(err);
 });
 

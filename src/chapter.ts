@@ -1,57 +1,55 @@
-function readFile(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
+import {FileSystemMock as fs} from "./mockFSApi";
+
+// Let's define what properties a chapter should have using an interface
+export interface IChapter {
+  name: string;
+  content: string;
 }
 
-function fileBufferedReader(){
-    let result = Math.floor(Math.random() * 5000) + 100;
-    return result;
-}
 
-enum File {
-    Ch1 = "This is chapter 1... lore ipsun",
-    Ch2 = "This is chapter 2... hello world",
-    Ch3 = "This is chapter 3... 42",
-    Ch4 = "This is chapter 4... typescript is fun",
-    Ch5 = "This is chapter 5... yet promises are tricky"
-}
-
+/** Class representing a book chapter. */
 export default class Chapter {
+  private name: string;
 
-    private chapterNumber: number;
+  /**
+   * Create a chapter.
+   *
+   * @param name The name of the chapter.
+   */
+  constructor(name: string) {
+    this.name = name
+  }
 
-    constructor(chapterNumber: number) {
-        this.chapterNumber = chapterNumber;
+  /**
+   * Asynchronously load the content for this chapter (from disk) and return it
+   * as a string.
+   *
+   * @returns A promise that resolves to a string.
+   * @throws File Not Found
+   */
+  public async loadContent(): Promise<string> {
+    let content: string;
+
+    console.log(`Loading :: ${this.name}`);
+    content = await fs.readFile(this.name);
+    console.log(`>> LOADED :: ${this.name}`);
+
+    return content;
+  }
+
+  /**
+   * Asynchronously load the content for this chapter and return an object with
+   * the chapter name and content.
+   *
+   * @returns A promise that resolves to a book chapter.
+   * @throws File Not Found
+   */
+  public async load(): Promise<IChapter> {
+    let chapter: IChapter = {
+      "name": this.name,
+      "content": await this.loadContent()
     }
 
-    public load(): Promise<string> {
-        let path = this.filePath();
-        console.log('Loading :: ' + path);
-        return new Promise(function (fulfill, reject) {
-            readFile(fileBufferedReader()).then(() => {
-                console.log('>> LOADED :: ' + path);
-                let content = File[path];
-                if (content == null) reject('[ERROR] :: Could not read file!');
-                fulfill(content);
-            });
-        });
-    }
-
-    public anotherLoad(): Promise<string> {
-        let that = this;
-        let path = this.filePath();
-        console.log('Loading :: ' + path);
-        return new Promise(function (fulfill, reject) {
-            readFile(fileBufferedReader()).then(() => {
-                console.log('>> LOADED :: ' + path);
-                let content = File[path];
-                if (content == null) reject('[ERROR] :: Could not read file!');
-                fulfill({'idx': that.chapterNumber, 'content': content});
-            });
-        });
-    }
-
-    public filePath(): string {
-        let path = "Ch" + String(this.chapterNumber);
-        return path;
-    }
+    return chapter;
+  }
 }

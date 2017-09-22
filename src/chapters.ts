@@ -1,9 +1,10 @@
-import Chapter from "./chapter";
+import {Chapter} from "./chapter";
 
 (async () => {
   let chapterNames: string[] = ["Ch1", "Ch2", "Ch3", "Ch4", "Ch5"];
   chapterNames.forEach(async (name) => {
     let chapter: Chapter = new Chapter(name);
+
 
     try {
       let content: string = await chapter.loadContent();

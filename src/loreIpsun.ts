@@ -1,4 +1,4 @@
-import Chapter from "./chapter";
+import {Chapter} from "./chapter";
 
 (() => {
   let chapterNames = ["Ch1", "Ch2", "Ch3", "Ch4", "Ch5"];
